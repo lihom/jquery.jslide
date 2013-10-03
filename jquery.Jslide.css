@@ -1,15 +1,15 @@
-.slide_container_wrap {
+.Jslide-wrap {
 	width:100%; height:100%;
 	position:absolute;
 	top:0; left:0;
 }
 
-.slide_container_wrap.working {
+.Jslide-wrap.working {
 	background-color: #fff;
 	opacity: .5;
 }
 
-.slide_container {
+.Jslide-container {
 	position: absolute;
 	width:100%; height:100%;
 	overflow: hidden;
@@ -18,7 +18,7 @@
 	opacity:0;
 }
 
-.slide_container .slide_content {
+.Jslide-carousel {
 	margin: 0;
 	padding: 0;
 	position:absolute;
@@ -27,7 +27,7 @@
 	z-index: 1;
 }
 
-.slide_container li {
+.Jslide-carousel li {
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -36,17 +36,17 @@
 	opacity:.2;
 }
 
-.slide_container li.step {
+.Jslide-carousel li.step {
 	opacity:1;
 }
 
-.slide_container .nav {
+.Jslide-nav {
 	position: relative;
 	width: 100%; height: 100%;
 	z-index: 2;
 }
-.slide_container .next,
-.slide_container .prev {
+.Jslide-next,
+.Jslide-prev {
 	position:absolute;
 	background-color: #000;
 	color:#fff;
@@ -58,49 +58,48 @@
 	margin-top: -50px;
 	cursor:pointer;
 	opacity:.8;
-	/* border:1px #555 solid; */
 }
-.slide_container .next:hover,
-.slide_container .prev:hover {
+.Jslide-next:hover,
+.Jslide-prev:hover {
 	opacity:1;
 }
 
-.slide_container .next {
+.Jslide-next {
 	right:-1px;
 }
-.slide_container .prev {
+.Jslide-prev {
 	left:-1px;
 }
 
-.slide_container .paginationCon {
+.Jslide-page-wrap {
 	position: absolute;
 	bottom:0;
 	width: 100%;
 	margin: 0 auto;
 	z-index: 3;
 }
-.slide_container .paginationCon .pageCon {
+.Jslide-page-container {
 	position: absolute;
 	left: 0; top: 0;
 	height:100px;
 	background-color: #fff;
 	opacity:.7;
 }
-.slide_container .paginationCon .page {
+.Jslide-page {
 	background-color: #000;
 	width:12px; height:100%;
 	float: left;
 	cursor:pointer;
 	opacity:0;
 }
-.slide_container .paginationCon .page.step {
+.Jslide-page.step {
 	opacity:.3;
 }
-.slide_container .paginationCon .page:hover {
+.Jslide-page:hover {
 	opacity:.6;
 }
 
-.slide_container .broad {
+.Jslide-broad {
 	position: absolute;
 	top: 20px; left: 20px;
 	background-color: #fff;
@@ -111,19 +110,19 @@
 	opacity: .8;
 }
 
-.slide_container .broad h1,
-.slide_container .broad p {
+.Jslide-broad h1,
+.Jslide-broad p {
 	margin: 0;
 	padding: 0;
 }
-.slide_container .broad h1 {
+.Jslide-broad h1 {
 	margin-bottom: 10px;
 }
-.slide_container .broad p {
+.Jslide-broad p {
 	
 }
 
-.slide_container .close {
+.Jslide-close {
 	position: absolute;
 	top: 0; right: 0;
 	width:100px; height:100px;
@@ -136,6 +135,6 @@
 	opacity:.8;
 	z-index: 2;
 }
-.slide_container .close:hover {
+.Jslide-close:hover {
 	opacity:1;
 }
