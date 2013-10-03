@@ -25,6 +25,9 @@
 			resize_mode: true,
 			
 			win: window,
+			pic_wrap: '.Jslide-wrap',
+			pic_loading: '.Jslide-loading',
+			pic_bg: '.Jslide-bg',
 			pic_container: '.Jslide-carousel',
 			pics: '.Jslide-carousel > li',
 			pagination_con: '.Jslide-page-wrap',
@@ -56,6 +59,8 @@
 			$win: {},
 			$wrap: {},
 			$self: {},
+			$loading: {},
+			$bg: {},
 			$page: {},
 			$pages: {},
 			$page_con: {},
@@ -278,25 +283,17 @@
 			loading: function(precent) {
 				precent = precent || 0;
 				if (_this.loading_init) {
-					$loading = $('<div class="loading"></div>');
-					$loading.css({
-						'position': 'absolute',
-						'left': 0,
-						'top': 0,
-						'width': '100%',
-						'height': 3,
-						'z-index': 3,
-						'background-color': '#000',
-						'opacity': .8
-					});
-					_this.$self.wrap('<div class="Jslide-wrap working">');
+					_this.$loading = $('<div class="' + _this.pic_loading.replace('.', '') + '">');
+					_this.$bg = $('<div class="' + _this.pic_bg.replace('.', '') + '">');
+					_this.$self.wrap('<div class="' + _this.pic_wrap.replace('.', '') + ' working">');
 					_this.$wrap = _this.$self.parent();
-					_this.$wrap.prepend($loading);
+					_this.$wrap.append(_this.$loading);
+					_this.$wrap.append(_this.$bg);
 					_this.loading_init = false;
 				}
-				$loading.width(precent + '%');
+				_this.$loading.width(precent + '%');
 				if (precent >= 100) {
-					$loading.fadeOut(1000);
+					_this.$loading.fadeOut(1000);
 				}
 			},
 

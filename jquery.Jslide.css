@@ -3,12 +3,33 @@
 	position:fixed;
 	*position:absolute;
 	top:0; left:0;
+	z-index: 99;
 }
 
-.Jslide-wrap.working {
+.Jslide-wrap.working .Jslide-bg {
 	background-color: #fff;
-	opacity: .5;
-	filter:alpha(opacity=50);
+	opacity:.8;
+	filter:alpha(opacity=80);
+}
+
+.Jslide-bg {
+	display: block;
+	width:100%; height:100%;
+	position: absolute;
+	top:0; left:0;
+	background-color: #ccc;
+	z-index:1;
+}
+
+.Jslide-loading {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 5px;
+	z-index: 3;
+	background-color: #000;
+	z-index:2;
 }
 
 .Jslide-container {
@@ -16,9 +37,9 @@
 	width:100%; height:100%;
 	overflow: hidden;
 	margin: 0 auto;
-	background-color: #ccc;
 	opacity:0;
 	filter:alpha(opacity=0);
+	z-index:3;
 }
 
 .Jslide-carousel {
