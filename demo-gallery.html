@@ -1,86 +1,142 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>jquery.Jslide.js - gallery</title>
-        <link rel="stylesheet" href="jquery.Jslide.css">
-        <style>
-        	html, body {
-        		margin: 0;
+	<head>
+		<meta charset="utf-8">
+		<title>jquery.Jslide.js - gallery</title>
+		<link rel="stylesheet" href="jquery.Jslide.css">
+		<style>
+			html, body {
+				margin: 0;
 				padding: 0;
 				width:100%; height:100%;
 				font-family: Arial, san-serif, '微軟正黑體';
-        	}
-        </style>
-    </head>
-    <body>
-       <div id="slide" class="slide_container">
-   			<ul class="slide_content">
-   				<li><img src="img/01.jpg" height="100%" data-title="Image 01" data-desc="Description 01" /></li>
-   				<li><img src="img/02.jpg" height="100%" data-title="Image 02" data-desc="Description 02" /></li>
-   				<li><img src="img/03.jpg" height="100%" data-title="Image 03" data-desc="Description 03" /></li>
-   				<li><img src="img/04.jpg" height="100%" data-title="Image 04" data-desc="Description 04" /></li>
-   				<li><img src="img/05.jpg" height="100%" data-title="Image 05" data-desc="Description 05" /></li>
-   			</ul>
-   			<div class="nav">
-   				<div class="prev">&lsaquo;</div>
-   				<div class="next">&rsaquo;</div>
-   			</div>
-   			<div class="paginationCon">
-   				<div class="pageCon">
-   					<div class="page"></div>
-   					<div class="page"></div>
-   					<div class="page"></div>
-   					<div class="page"></div>
-   					<div class="page"></div>
-   				</div>
-   			</div>
-   			<div class="broad">
-	       		<h1 id="slide_title">Title</h1>
-	       		<p id="slide_desc">Description</p>
-	       	</div>
-	       	<div class="close">
-	       		x
-	       	</div>
-	    </div>
+			}
+		</style>
+	</head>
+	<body>
+		<div id="slide" class="slide_container">
+			<ul class="slide_content">
+				<li><img src="img/01.jpg" height="100%" data-caption="Image 01" data-desc="Description 01" /></li>
+				<li><img src="img/02.jpg" height="100%" data-caption="Image 02" data-desc="Description 02" /></li>
+				<li><img src="img/03.jpg" height="100%" data-caption="Image 03" data-desc="Description 03" /></li>
+				<li><img src="img/04.jpg" height="100%" data-caption="Image 04" data-desc="Description 04" /></li>
+				<li><img src="img/05.jpg" height="100%" data-caption="Image 05" data-desc="Description 05" /></li>
+			</ul>
+			<div class="nav">
+				<div class="prev">&lsaquo;</div>
+				<div class="next">&rsaquo;</div>
+			</div>
+			<div class="paginationCon">
+				<div class="pageCon">
+					<div class="page"></div>
+					<div class="page"></div>
+					<div class="page"></div>
+					<div class="page"></div>
+					<div class="page"></div>
+				</div>
+			</div>
+			<div class="broad">
+				<h1>Title</h1>
+				<p>Description</p>
+			</div>
+			<div class="close">
+				x
+			</div>
+		</div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-        <script src="jquery.Jslide.js"></script>
-        <script>
-        	$(function() {
-        		$('#slide').Jslide({
+		<script src="jquery.Jslide.js"></script>
+		<script>
+			$(function() {
+				/*
+				 * more use gallery mothod
+				 */
+				
+				// use html tag
+				$('#slide').Jslide({
+					speed: 1000,
+					show_broad: true,
+					pagination: true,
+					align: 'center',
+					hook_slidemove_before_click: function(k, datas) {
+						var html = '<h1>' + datas[k].caption + '</h1>';
+						html += '<p>' + datas[k].desc + '</p>';
+						this.$broad.html(html);
+					}
+				});
+
+				// use json for api
+				/*$('#slide').Jslide({
+					speed: 1000,
+					show_broad: true,
+					pagination: true,
+					align: 'center',
+					hook_slidemove_before_click: function(k, datas) {
+						var html = '<h1>' + datas[k].caption + '</h1>';
+						html += '<p>' + datas[k].desc + '</p>';
+						this.$broad.html(html);
+					},
+					source: 'json/json.php'
+				});*/
+
+				// use json obj
+				/*$('#slide').Jslide({
 					speed: 1000,
 					pagination: true,
 					align: 'center',
 					hook_slidemove_before_click: function(k, datas) {
-						var html = '<h1>' + datas[k].title + '</h1>';
+						var html = '<h1>' + datas[k].caption + '</h1>';
 						html += '<p>' + datas[k].desc + '</p>';
 						this.$broad.html(html);
 					},
-					// source: 'json/json.php'
-					// source: {
-					// 	'img1': 'img/01.jpg',
-					// 	'img2': 'img/02.jpg',
-					// 	'img3': 'img/03.jpg',
-					// 	'img4': 'img/04.jpg',
-					// 	'img5': 'img/05.jpg'
-					// }
-					// source: [
-					// 	'img/01.jpg',
-					// 	'img/02.jpg',
-					// 	'img/03.jpg',
-					// 	'img/04.jpg',
-					// 	'img/05.jpg'
-					// ]
-					// source: [
-					// 	{'img': 'img/01.jpg', 'title': 'Image 01', 'desc': 'Description 01'},
-					// 	{'img': 'img/02.jpg', 'title': 'Image 02', 'desc': 'Description 02'},
-					// 	{'img': 'img/03.jpg', 'title': 'Image 03', 'desc': 'Description 03'},
-					// 	{'img': 'img/04.jpg', 'title': 'Image 04', 'desc': 'Description 04'},
-					// 	{'img': 'img/05.jpg', 'title': 'Image 05', 'desc': 'Description 05'}
-					// ]
-        		});
-        	});
-        </script>
-    </body>
+					source: {
+						'url_1': 'img/01.jpg',
+						'url_2': 'img/02.jpg',
+						'url_3': 'img/03.jpg',
+						'url_4': 'img/04.jpg',
+						'url_5': 'img/05.jpg'
+					}
+				});*/
+
+				// use array
+				/*$('#slide').Jslide({
+					speed: 1000,
+					pagination: true,
+					align: 'center',
+					hook_slidemove_before_click: function(k, datas) {
+						var html = '<h1>' + datas[k].caption + '</h1>';
+						html += '<p>' + datas[k].desc + '</p>';
+						this.$broad.html(html);
+					},
+					source: [
+						'img/01.jpg',
+						'img/02.jpg',
+						'img/03.jpg',
+						'img/04.jpg',
+						'img/05.jpg'
+					]
+				});*/
+
+				// use json in line
+				/*$('#slide').Jslide({
+					speed: 1000,
+					show_broad: true,
+					pagination: true,
+					align: 'center',
+					hook_slidemove_before_click: function(k, datas) {
+						var html = '<h1>' + datas[k].caption + '</h1>';
+						html += '<p>' + datas[k].desc + '</p>';
+						this.$broad.html(html);
+					},
+					source: [
+						{'url': 'img/01.jpg', 'caption': 'Image 01', 'desc': 'Description 01'},
+						{'url': 'img/02.jpg', 'caption': 'Image 02', 'desc': 'Description 02'},
+						{'url': 'img/03.jpg', 'caption': 'Image 03', 'desc': 'Description 03'},
+						{'url': 'img/04.jpg', 'caption': 'Image 04', 'desc': 'Description 04'},
+						{'url': 'img/05.jpg', 'caption': 'Image 05', 'desc': 'Description 05'}
+					]
+				});*/
+			});
+		</script>
+	</body>
 </html>

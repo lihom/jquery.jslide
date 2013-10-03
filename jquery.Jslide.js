@@ -75,8 +75,8 @@
 			nowNum: 0,
 			prevNum: 0,
 			datas: [],
-			safeLan: 14,
-			pushLen: 5,
+			safeLan: 5,
+			pushLen: 2,
 			interval: {},
 			init: true,
 			loading_init: true,
@@ -122,7 +122,7 @@
 						var obj = {},
 							$this = $(this),
 							data = $this.data();
-						obj['img'] = this.src;
+						obj['url'] = this.src;
 						datas[k] = $.extend(obj, data);
 					});
 
@@ -162,19 +162,17 @@
 
 				function create_list(datas) {
 					if (datas.length <= _this.safeLan) {
-						datas = clone_data(datas, Math.ceil(_this.safeLan / datas.length));
+						datas = clone_data(datas, Math.floor(_this.safeLan / datas.length));
 					}
 
 					var $item = $(_this.pics, _this.$self).eq(0).clone();
 					$item.wrap('<div>');
 					_this.$picContainer.html('');
+
 					for (var k in datas) {
-						$item.find('img').attr('src', datas[k].img)
+						$item.find('img').attr('src', datas[k].url)
 						var html = $item.parent().html();
 						_this.$picContainer.append(html);
-						if (_this.pagination) {
-
-						}
 					}
 					$item.remove();
 
@@ -183,7 +181,7 @@
 						$item.wrap('<div>');
 						_this.$pageCon.html('');
 						for (var k in datas) {
-							$item.find('img').attr('src', datas[k].img)
+							$item.find('img').attr('src', datas[k].url)
 							var html = $item.parent().html();
 							_this.$pageCon.append(html);
 						}

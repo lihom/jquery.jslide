@@ -21,8 +21,8 @@ $files = get_file_name($folder, 'jpg');
 $datas = array();
 
 foreach ($files as $k=>$v) {
-	$datas[$k]['img'] = 'json/' . $folder . '/' . $v;
-	$datas[$k]['title'] = 'Image ' . sprintf("%02d", $k + 1);
+	$datas[$k]['url'] = 'json/' . $folder . '/' . $v;
+	$datas[$k]['caption'] = 'Image ' . sprintf("%02d", $k + 1);
 	$datas[$k]['desc'] = 'filename: ' . $v;
 }
 
