@@ -733,7 +733,7 @@
 			
 		_public = {
 			jslide_config: {},
-			jslide_html: '<div class=\"Jslide-container\">\r\n\t<ul class=\"Jslide-carousel\">\r\n\t\t<li><img src=\"\" height=\"100%\" \/><\/li>\r\n\t<\/ul>\r\n\t<div class=\"Jslide-nav\">\r\n\t\t<div class=\"Jslide-prev\">&lsaquo;<\/div>\r\n\t\t<div class=\"Jslide-next\">&rsaquo;<\/div>\r\n\t<\/div>\r\n\t<div class=\"Jslide-page-wrap\">\r\n\t\t<div class=\"Jslide-page-container\">\r\n\t\t\t<div class=\"Jslide-page\"><\/div>\r\n\t\t<\/div>\r\n\t<\/div>\r\n\t<div class=\"Jslide-broad\">\r\n\t\t<h1><\/h1>\r\n\t\t<p><\/p>\r\n\t<\/div>\r\n\t<div class=\"Jslide-close\">\r\n\t\tx\r\n\t<\/div>\r\n<\/div>'
+			jslide_html: '<div class="Jslide-container"><ul class="Jslide-carousel"><li><img height="100%" /></li></ul><div class="Jslide-nav"><div class="Jslide-prev">&lsaquo;</div><div class="Jslide-next">&rsaquo;</div></div><div class="Jslide-page-wrap"><div class="Jslide-page-container"><div class="Jslide-page"></div></div></div><div class="Jslide-broad"><h1></h1><p></p></div><div class="Jslide-close">x</div></div>'
 		};
 		
 		_privaty = {
