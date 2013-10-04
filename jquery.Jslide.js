@@ -39,6 +39,7 @@
 			next: '.Jslide-next',
 			broad: '.Jslide-broad',
 			close_btn: '.Jslide-close',
+			hitarea: '.Jslide-hitarea',
 			
 			pager: '',
 			speed: 1000,
@@ -424,7 +425,7 @@
 			
 			do_touch_event: function() {
 				_this.$nav.remove();
-				
+
 				var touch = {
 						x: 0,
 						y: 0
@@ -511,17 +512,7 @@
 
 				if ($pic_anchor.length == 0) {
 					var w = _this.pic_container_w - (_this.$prev.width() + _this.$next.width());
-					$hit = $('<div class="hitarea" />');
-					$hit.css({
-						'position': 'absolute',
-						'width': w,
-						'height': _this.$pic_container.height(),
-						'left': '50%',
-						'top': '50%',
-						'margin-left': - w / 2,
-						'margin-top': - _this.$pic_container.height() / 2,
-						'z-index': 3
-					});
+					$hit = $('<div class="' + _this.hitarea.replace('.', '') + '">');
 					$pic_con.prepend($hit);
 				} else {
 					$hit = _this.$pic_container;
