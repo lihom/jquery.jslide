@@ -224,8 +224,12 @@
 				if (_this.pic_len <= _this.safe_lan) _this.push = false;
 				if (_this.pic_len <= _this.visible) _this.$nav.remove();
 				
-				if (_this.pic_switch) {
-					_this.init_pic_switch();
+				if (_this.is_mobile() && _this.touch && _this.init) {
+					_this.do_touch_event();
+				} else {
+					if (_this.pic_switch) {
+						_this.init_pic_switch();
+					}
 				}
 
 				if (_this.pagination) {
@@ -396,10 +400,6 @@
 
 				if (_this.pagination) {
 					_this.reset_pagination();
-				}
-				
-				if (_this.is_mobile() && _this.pic_container_w < _this.pics_w && _this.touch && _this.init) {
-					_this.do_touch_event();
 				}
 				
 				_this.item_pos(_this.now_num, 'css');
