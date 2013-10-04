@@ -82,7 +82,7 @@
 			now_num: 0,
 			prev_num: 0,
 			datas: [],
-			safe_lan: 5,
+			safe_lan: 10,
 			push_len: 2,
 			interval: {},
 			init: true,
