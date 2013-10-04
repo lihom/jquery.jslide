@@ -430,6 +430,11 @@
 						x: 0,
 						y: 0
 					},
+					touch_now = {
+						x: 0,
+						y: 0
+					},
+					type = 'touch',
 					delta = 0,
 					winScroll = false,
 					timeout = {};
@@ -461,12 +466,16 @@
 					_this.disable_auto_play();
 					touch.x = get_event_pos_x(e);
 					touch.y = get_event_pos_y(e);
+					touch_now.x = touch.x;
+					touch_now.y = touch_now.y;
 				};
 
 				var touchmove_hit = function(e) {
 					_this.play = false;
 					var x = get_event_pos_x(e),
 						y = get_event_pos_y(e);
+					touch_now.x = x;
+					touch_now.y = y;
 					if (Math.abs(y - touch.y) > Math.abs(x - touch.x)) {
 						delta = 0;
 						return;
@@ -481,14 +490,15 @@
 
 				var touchend_hit = function(e) {
 					_this.play = false;
+					type = (touch.x == touch_now.x) ? 'click' : 'touch';
 					_this.$pic_container.stop();
 					_this.$pic_container.animate({left: 0}, 500, 'easeOutCirc');
 					timeout = setTimeout(enableScroll, _this.speed / 2);
 					if (delta == 0) return;
 					if (delta > 0) {
-						_this.do_slide_prev('touch');
+						_this.do_slide_prev(type);
 					} else {
-						_this.do_slide_next('touch');
+						_this.do_slide_next(type);
 					}
 				};
 				
