@@ -23,6 +23,7 @@
 			pagination: false,
 			show_broad: false,
 			show_close: false,
+			show_nav: false,
 			resize_mode: true,
 			
 			win: window,
@@ -249,6 +250,12 @@
 				} else {
 					_this.$close_btn.remove();
 				}
+
+				if (_this.show_nav) {
+					
+				} else {
+					_this.$nav.remove();
+				}
 				
 				if (_this.resize_mode) {
 					_this.$win.bind('resize', _this.delay_init_stage);
@@ -424,8 +431,6 @@
 			},
 			
 			do_touch_event: function() {
-				_this.$nav.remove();
-
 				var touch = {
 						x: 0,
 						y: 0
