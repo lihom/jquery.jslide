@@ -221,7 +221,7 @@
 				_this.pic_len = _this.$pics.length;
 				
 				if (_this.pic_len <= _this.safe_lan) _this.push = false;
-				if (_this.pic_len <= _this.visible) _this.$nav.css('display', 'none');
+				if (_this.pic_len <= _this.visible) _this.$nav.remove();
 				
 				if (_this.pic_switch) {
 					_this.init_pic_switch();
@@ -423,6 +423,8 @@
 			},
 			
 			do_touch_event: function() {
+				_this.$nav.remove();
+				
 				var touch = {
 						x: 0,
 						y: 0
