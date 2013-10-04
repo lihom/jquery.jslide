@@ -61,6 +61,9 @@
 			$self: {},
 			$loading: {},
 			$bg: {},
+			$pic: {},
+			$pics: {},
+			$pic_container: {},
 			$page: {},
 			$pages: {},
 			$page_con: {},
@@ -70,9 +73,6 @@
 			$next: {},
 			$broad: {},
 			$closeBtn: {},
-			$pic: {},
-			$pics: {},
-			$pic_container: {},
 			pic_container_w: 0,
 			pic_container_h: 0,
 			pic_len: 0,
@@ -80,11 +80,10 @@
 			now_num: 0,
 			prev_num: 0,
 			datas: [],
-			safe_lan: 14,
-			push_len: 5,
+			safe_lan: 5,
+			push_len: 2,
 			interval: {},
 			init: true,
-			loading_init: true,
 			play: true,
 			playing: false,
 
@@ -101,7 +100,7 @@
 
 				_this.$closeBtn = $(_this.closeBtn, _this.$self);
 
-				_this.loading();
+				_this.init_loading();
 
 				_this.rebuild();
 			},
@@ -280,17 +279,17 @@
 				}
 			},
 
+			init_loading: function() {
+				_this.$loading = $('<div class="' + _this.pic_loading.replace('.', '') + '">');
+				_this.$bg = $('<div class="' + _this.pic_bg.replace('.', '') + '">');
+				_this.$self.wrap('<div class="' + _this.pic_wrap.replace('.', '') + ' working">');
+				_this.$wrap = _this.$self.parent();
+				_this.$wrap.append(_this.$loading);
+				_this.$wrap.append(_this.$bg);
+			},
+
 			loading: function(precent) {
 				precent = precent || 0;
-				if (_this.loading_init) {
-					_this.$loading = $('<div class="' + _this.pic_loading.replace('.', '') + '">');
-					_this.$bg = $('<div class="' + _this.pic_bg.replace('.', '') + '">');
-					_this.$self.wrap('<div class="' + _this.pic_wrap.replace('.', '') + ' working">');
-					_this.$wrap = _this.$self.parent();
-					_this.$wrap.append(_this.$loading);
-					_this.$wrap.append(_this.$bg);
-					_this.loading_init = false;
-				}
 				_this.$loading.width(precent + '%');
 				if (precent >= 100) {
 					_this.$loading.fadeOut(1000);
@@ -468,7 +467,8 @@
 
 				var touchend_hit = function(e) {
 					_this.play = false;
-					_this.$pic_container.animate({left: 0}, _this.speed / 2);
+					_this.$pic_container.stop();
+					_this.$pic_container.animate({left: 0}, 500, 'easeOutCirc');
 					timeout = setTimeout(enableScroll, _this.speed / 2);
 					if (delta == 0) return;
 					if (delta > 0) {
@@ -539,7 +539,7 @@
 				} else {
 					_this.now_num--;
 				}
-				_this.item_pos(_this.now_num, 'animate');
+				_this.item_pos(_this.now_num, type == 'touch' ? 'css' : 'animate');
 			},
 			
 			do_slide_next: function(type) {
@@ -550,7 +550,7 @@
 				} else {
 					_this.now_num++;
 				}
-				_this.item_pos(_this.now_num, 'animate');
+				_this.item_pos(_this.now_num, type == 'touch' ? 'css' : 'animate');
 			},
 			
 			do_slide_move: function(num) {
