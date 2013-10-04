@@ -19,6 +19,7 @@
 			touch_loop: true,
 			touch: true,
 			autoplay: false,
+			pic_switch: true,
 			pagination: false,
 			show_broad: false,
 			show_close: false,
@@ -37,12 +38,12 @@
 			prev: '.Jslide-prev',
 			next: '.Jslide-next',
 			broad: '.Jslide-broad',
-			closeBtn: '.Jslide-close',
+			close_btn: '.Jslide-close',
 			
 			pager: '',
 			speed: 1000,
 			time: 5000,
-			stepCss: 'step',
+			step_css: 'step',
 			easing: 'easeOutQuart',
 			visible: 1,
 			align: 'left',
@@ -72,7 +73,7 @@
 			$prev: {},
 			$next: {},
 			$broad: {},
-			$closeBtn: {},
+			$close_btn: {},
 			pic_container_w: 0,
 			pic_container_h: 0,
 			pic_len: 0,
@@ -98,7 +99,7 @@
 
 				_this.$broad = $(_this.broad, _this.$self);
 
-				_this.$closeBtn = $(_this.closeBtn, _this.$self);
+				_this.$close_btn = $(_this.close_btn, _this.$self);
 
 				_this.init_loading();
 
@@ -215,9 +216,6 @@
 				_this.$next = $(_this.next, _this.$self).eq(0);
 				_this.$pics = $(_this.pics, _this.$self);
 				
-				_this.$nav.css('z-index', 2);
-				_this.$pic_container.css('z-index', 1);
-				
 				_this.pic_container_w = _this.$self.width();
 				_this.pic_container_h = _this.$self.height();
 				_this.pic_len = _this.$pics.length;
@@ -225,6 +223,10 @@
 				if (_this.pic_len <= _this.safe_lan) _this.push = false;
 				if (_this.pic_len <= _this.visible) _this.$nav.css('display', 'none');
 				
+				if (_this.pic_switch) {
+					_this.init_pic_switch();
+				}
+
 				if (_this.pagination) {
 					_this.init_pagination();
 				} else {
@@ -240,7 +242,7 @@
 				if (_this.show_close) {
 					_this.init_closeBtn();
 				} else {
-					_this.$closeBtn.remove();
+					_this.$close_btn.remove();
 				}
 				
 				if (_this.resize_mode) {
@@ -323,8 +325,16 @@
 			},
 
 			init_closeBtn: function() {
-				_this.$closeBtn.bind('click', function() {
+				_this.$close_btn.bind('click', function() {
 					_this.close();
+				});
+			},
+
+			init_pic_switch: function() {
+				_this.$pics.bind('click', function() {
+					var $this = $(this),
+						num = $this.data('num');
+					if ($this.hasClass(_this.step_css) == false) _this.item_pos(num, 'animate');
 				});
 			},
 			
@@ -377,9 +387,10 @@
 				_this.pic_container_w = _this.$self.width();
 				_this.pic_container_h = _this.$self.height();
 				_this.$pics.find('img').attr('height', _this.pic_container_h);
-				_this.$pics.each(function() {
+				_this.$pics.each(function(i) {
 					var $this = $(this);
 					_this.pics_w += $this.width();
+					$this.data('num', i);
 				});
 
 				if (_this.pagination) {
@@ -623,12 +634,12 @@
 				if (_this.hook_slidemove_before_click) _this.hook_slidemove_before_click(step_num, _this.datas);
 				
 				_this.$pic = _this.$pics.eq(step_num);
-				_this.$pic.siblings().removeClass(_this.stepCss);
-				_this.$pic.addClass(_this.stepCss);
+				_this.$pic.siblings().removeClass(_this.step_css);
+				_this.$pic.addClass(_this.step_css);
 				if (_this.pagination) {
 					_this.$page = _this.$pages.eq(step_num);
-					_this.$page.siblings().removeClass(_this.stepCss);
-					_this.$page.addClass(_this.stepCss);
+					_this.$page.siblings().removeClass(_this.step_css);
+					_this.$page.addClass(_this.step_css);
 				}
 				
 				var step_w = _this.$pic.outerWidth(),
