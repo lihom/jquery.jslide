@@ -1,10 +1,14 @@
+Jslide
+======
+
 jQuery plugin: image slide show for desktop and mobile use.
 
-- JslideAnchor for List
+JslideAnchor for List
+---------------------
 
 use json data
 
-HTML
+###HTML
 
 ```
 <ul id="slide_list" class="slide_list">
@@ -16,7 +20,7 @@ HTML
 </ul>
 ```
 
-JAVASCRIT
+###JAVASCRIT
 
 ```
 $('#slide_list > li > div').JslideAnchor({
@@ -34,16 +38,17 @@ $('#slide_list > li > div').JslideAnchor({
 });
 ```
 
-Demo
+###Demo
 
 http://lab.a2.kiiick.com/JS/jquery.jslide/demo-list.html
 
 
-- Jslide for Gallery
+Jslide for Gallery
+------------------
 
 use inline HTML
 
-HTML
+###HTML
 
 ```
 <div id="slide" class="Jslide-container">
@@ -77,9 +82,9 @@ HTML
 </div>
 ```
 
-JAVASCRIPT
+###JAVASCRIPT
 
-use html tag
+- use html tag
 
 ```
 $('#slide').Jslide({
@@ -94,7 +99,7 @@ $('#slide').Jslide({
 });
 ```
 
-use json for api
+- use json for api
 
 ```
 $('#slide').Jslide({
@@ -110,7 +115,7 @@ $('#slide').Jslide({
 });
 ```
 
-use json obj
+- use json obj
 
 ```
 $('#slide').Jslide({
@@ -132,7 +137,7 @@ $('#slide').Jslide({
 });
 ```
 
-use array
+- use array
 
 ```
 $('#slide').Jslide({
@@ -154,7 +159,7 @@ $('#slide').Jslide({
 });
 ```
 
-use json in line
+- use json in line
 
 ```
 $('#slide').Jslide({
@@ -176,6 +181,6 @@ $('#slide').Jslide({
 });
 ```
 
-Demo
+###Demo
 
 http://lab.a2.kiiick.com/JS/jquery.jslide/demo-gallery.html
