@@ -89,8 +89,11 @@
 			init: true,
 			play: true,
 			playing: false,
+			click_evt: 'click',
 
 			__construct: function(self) {
+				_this.click_evt = (_this.is_mobile()) ? 'touchend' : 'click';
+
 				_this.$win = $(_this.win);
 				_this.$self = $(self);
 				_this.$self.css('opacity', 0);
@@ -266,10 +269,10 @@
 					setTimeout(_this.init_stage, 10);
 				});
 				
-				_this.$prev.bind('click', function() {
+				_this.$prev.bind(_this.click_evt, function() {
 					_this.do_slide_prev();
 				});
-				_this.$next.bind('click', function() {
+				_this.$next.bind(_this.click_evt, function() {
 					_this.do_slide_next();
 				});
 				
@@ -337,13 +340,13 @@
 			},
 
 			init_closeBtn: function() {
-				_this.$close_btn.bind('click', function() {
+				_this.$close_btn.bind(_this.click_evt, function() {
 					_this.close();
 				});
 			},
 
 			init_pic_switch: function() {
-				_this.$pics.bind('click', function() {
+				_this.$pics.bind(_this.click_evt, function() {
 					var $this = $(this),
 						num = $this.data('num');
 					if ($this.hasClass(_this.step_css) == false) _this.item_pos(num, 'animate');
@@ -363,7 +366,7 @@
 						var $this = $(this);
 						$.data($this[0], 'index', i);
 					});
-					_this.$pages.bind('click', function() {
+					_this.$pages.bind(_this.click_evt, function() {
 						var index = $(this).data('index');
 						_this.do_slide_move(index);
 					});
@@ -578,16 +581,15 @@
 				_this.item_pos(num, 'animate');
 			},
 			
-			check_animate_rule: function(x) {
-				return (x <= -(_this.pic_container_w * 2) || x >= _this.pic_container_w * 2);
+			check_animate_rule: function(x, i) {
+				return ((x <= -_this.pic_container_w || x >= _this.pic_container_w) && Math.abs(_this.now_num - i) >= _this.push_len);
 			},
 			
 			visible_switch: function(i, x, y) {
 				var cssObj = {},
-					$pic = _this.$pics.eq(i),
-					w = $pic.width();
+					$pic = _this.$pics.eq(i);
 				
-				if (_this.check_animate_rule(x)) {
+				if (_this.check_animate_rule(x, i)) {
 					cssObj = {
 						'visibility': 'hidden',
 						'z-index': 1,
@@ -606,16 +608,14 @@
 			
 			item_tween: function(i, x, y, type) {
 				var $pic = _this.$pics.eq(i),
-					w = w = $pic.width(),
 					x = Math.ceil(x),
 					y = Math.ceil(y);
 				_this.visible_switch(i, x, y);
-				if (_this.check_animate_rule(x)) type = 'css';
+				if (_this.check_animate_rule(x, i)) type = 'css';
 				$pic.clearQueue();
 				switch (type) {
 					case 'animate':
 						$pic
-						.css({'position': 'absolute', 'border': '0'})
 						.animate({
 							left: x
 						}, _this.speed, _this.easing, function() {
@@ -627,7 +627,6 @@
 						break;
 					case 'css':
 						$pic.css({
-							'position': 'absolute',
 							left: x
 						});
 						if (i >= _this.pic_len - 1) {
@@ -644,6 +643,7 @@
 				_this.$pic = _this.$pics.eq(step_num);
 				_this.$pic.siblings().removeClass(_this.step_css);
 				_this.$pic.addClass(_this.step_css);
+
 				if (_this.pagination) {
 					_this.$page = _this.$pages.eq(step_num);
 					_this.$page.siblings().removeClass(_this.step_css);
@@ -659,7 +659,6 @@
 					var switch_ratio = (step_num > i) ? 0 : 1,
 						x = 0;
 					if (switch_ratio == 0) {
-						// 小於
 						x = (function() {
 							var tmp_w = 0;
 							for (var k = i; k < step_num; k++) {
@@ -668,7 +667,6 @@
 							return step_x - tmp_w;
 						})();
 					} else {
-						// 大於
 						x = (function() {
 							var tmp_w = 0;
 							for (var k = step_num; k < i; k++) {
@@ -677,32 +675,33 @@
 							return step_x + _this.$pics.eq(step_num).outerWidth() + tmp_w - step_w;
 						})();
 					}
-					$.data(_this.$pics.eq(i)[0], 'x', x);
+					_this.$pics.eq(i).data('x', x);
 				}
 				
 				var push_last = function(num) {
 					if (step_num <= num - 1) {
 						for (var i = len; i >= len - num; i--) {
 							var k = (i == len) ? 0 : i + 1,
-								x = $.data(_this.$pics.eq(k)[0], 'x'),
+								x = _this.$pics.eq(k).data('x'),
 								pos_x = x - _this.$pics.eq(i).width();
 
-							$.data(_this.$pics.eq(i)[0], 'x', pos_x);
+							_this.$pics.eq(i).data('x', pos_x);
+
 						}
 					} else if (step_num >= len - num - 1) {
 						for (var i = 0; i <= num; i++) {
 							var k = (i == 0) ? len : i - 1,
-								x = $.data(_this.$pics.eq(k)[0], 'x'),
+								x = _this.$pics.eq(k).data('x'),
 								pos_x = x + _this.$pics.eq(k).width();
 							
-							$.data(_this.$pics.eq(i)[0], 'x', pos_x);
+							_this.$pics.eq(i).data('x', pos_x);
 						}
 					}
 				};
 				push_last(_this.push_len);
 				
 				for (var i = 0; i <= len; i++) {
-					var x = $.data(_this.$pics.eq(i)[0], 'x');
+					var x = _this.$pics.eq(i).data('x');
 					_this.item_tween(i, x, y, type);
 				}
 				
@@ -756,14 +755,16 @@
 			$body: $('body'),
 			$self: {},
 			$jslide_obj: {},
+			click_evt: 'click',
 
 			__construct: function(self) {
+				_this.click_evt = (_this.is_mobile()) ? 'touchend' : 'click';
 				_this.$self = $(self);
 				_this.add_anchor_event();
 			},
 
 			add_anchor_event: function() {
-				_this.$self.bind('click', _this.do_jslide);
+				_this.$self.bind(_this.click_evt, _this.do_jslide);
 			},
 
 			do_jslide: function() {
@@ -773,6 +774,13 @@
 				_this.$body.append(_this.$jslide_obj);
 				_this.$jslide_obj.fadeIn(500);
 				_this.$jslide_obj.Jslide($.extend(_this.jslide_config, {show_close: true}, $this.data()));
+			},
+
+			is_mobile: function(){
+				var agent = (navigator.userAgent||navigator.vendor||window.opera).toLowerCase();
+				var is_mobile = /android.+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|ad|od)|iris|kindle|lge |maemo|meego.+mobile|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(agent)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(di|rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(agent.substr(0,4));
+				var result = is_mobile ? true : false;
+				return result;
 			}
 		};
 
