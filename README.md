@@ -1,11 +1,11 @@
 jQuery plugin: image slide show for desktop and mobile use.
-<br />
+
 - JslideAnchor for List
-<br />
+
 use json data
-<br />
+
 HTML
-<br />
+
 ```
 <ul id="slide_list" class="slide_list">
 	<li><div style="background-image:url(img/01.jpg)" data-source="json/json.php"></div></li>
@@ -15,9 +15,9 @@ HTML
 	<li><div style="background-image:url(img/05.jpg)" data-source="json/json.php?f=img_4"></div></li>
 </ul>
 ```
-<br />
+
 JAVASCRIT
-<br />
+
 ```
 $('#slide_list > li > div').JslideAnchor({
 	jslide_obj: '#slide',
@@ -35,18 +35,18 @@ $('#slide_list > li > div').JslideAnchor({
 	}
 });
 ```
-<br />
+
 Demo
-<br />
+
 http://lab.a2.kiiick.com/JS/jquery.jslide/demo-list.html
-<br />
-<br />
+
+
 - Jslide for Gallery
-<br />
+
 use inline HTML
-<br />
+
 HTML
-<br />
+
 ```
 <div id="slide" class="Jslide-container">
 	<ul class="Jslide-carousel">
@@ -78,11 +78,11 @@ HTML
 	</div>
 </div>
 ```
-<br />
+
 JAVASCRIPT
-<br />
+
 use html tag
-<br />
+
 ```
 $('#slide').Jslide({
 	speed: 1000,
@@ -97,9 +97,9 @@ $('#slide').Jslide({
 	}
 });
 ```
-<br />
+
 use json for api
-<br />
+
 ```
 $('#slide').Jslide({
 	speed: 1000,
@@ -114,9 +114,9 @@ $('#slide').Jslide({
 	source: 'json/json.php'
 });
 ```
-<br />
+
 use json obj
-<br />
+
 ```
 $('#slide').Jslide({
 	speed: 1000,
@@ -136,9 +136,9 @@ $('#slide').Jslide({
 	}
 });
 ```
-<br />
+
 use array
-<br />
+
 ```
 $('#slide').Jslide({
 	speed: 1000,
@@ -158,9 +158,9 @@ $('#slide').Jslide({
 	]
 });
 ```
-<br />
+
 use json in line
-<br />
+
 ```
 $('#slide').Jslide({
 	speed: 1000,
@@ -181,7 +181,7 @@ $('#slide').Jslide({
 	]
 });
 ```
-<br />
+
 Demo
-<br />
+
 http://lab.a2.kiiick.com/JS/jquery.jslide/demo-gallery.html
