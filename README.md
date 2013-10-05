@@ -22,11 +22,9 @@ JAVASCRIT
 $('#slide_list > li > div').JslideAnchor({
 	jslide_obj: '#slide',
 	jslide_config: {
-		speed: 1000,
 		show_broad: true,
 		show_nav: true,
 		pagination: true,
-		align: 'center',
 		hook_slidemove_before_click: function(k, datas) {
 			var html = '<h1>' + datas[k].caption + '</h1>';
 			html += '<p>' + datas[k].desc + '</p>';
@@ -85,11 +83,9 @@ use html tag
 
 ```
 $('#slide').Jslide({
-	speed: 1000,
 	show_broad: true,
 	show_nav: true,
 	pagination: true,
-	align: 'center',
 	hook_slidemove_before_click: function(k, datas) {
 		var html = '<h1>' + datas[k].caption + '</h1>';
 		html += '<p>' + datas[k].desc + '</p>';
@@ -102,10 +98,9 @@ use json for api
 
 ```
 $('#slide').Jslide({
-	speed: 1000,
 	show_broad: true,
+	show_nav: true,
 	pagination: true,
-	align: 'center',
 	hook_slidemove_before_click: function(k, datas) {
 		var html = '<h1>' + datas[k].caption + '</h1>';
 		html += '<p>' + datas[k].desc + '</p>';
@@ -119,9 +114,9 @@ use json obj
 
 ```
 $('#slide').Jslide({
-	speed: 1000,
+	show_broad: true,
+	show_nav: true,
 	pagination: true,
-	align: 'center',
 	hook_slidemove_before_click: function(k, datas) {
 		var html = '<h1>' + datas[k].caption + '</h1>';
 		html += '<p>' + datas[k].desc + '</p>';
@@ -141,9 +136,9 @@ use array
 
 ```
 $('#slide').Jslide({
-	speed: 1000,
+	show_broad: true,
+	show_nav: true,
 	pagination: true,
-	align: 'center',
 	hook_slidemove_before_click: function(k, datas) {
 		var html = '<h1>' + datas[k].caption + '</h1>';
 		html += '<p>' + datas[k].desc + '</p>';
@@ -163,10 +158,9 @@ use json in line
 
 ```
 $('#slide').Jslide({
-	speed: 1000,
 	show_broad: true,
+	show_nav: true,
 	pagination: true,
-	align: 'center',
 	hook_slidemove_before_click: function(k, datas) {
 		var html = '<h1>' + datas[k].caption + '</h1>';
 		html += '<p>' + datas[k].desc + '</p>';

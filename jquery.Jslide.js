@@ -48,7 +48,7 @@
 			step_css: 'step',
 			easing: 'easeOutQuart',
 			visible: 1,
-			align: 'left',
+			align: 'center',
 
 			source: false,
 			
