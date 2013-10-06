@@ -16,7 +16,6 @@
 		_public = {
 			push: false,
 			loop: true,
-			touch_loop: true,
 			touch: true,
 			autoplay: false,
 			pic_switch: true,
@@ -80,6 +79,8 @@
 			pic_container_h: 0,
 			pic_len: 0,
 			pics_w: 0,
+			pic_w: 0,
+			pic_x: 0,
 			now_num: 0,
 			prev_num: 0,
 			datas: [],
@@ -442,7 +443,6 @@
 						x: 0,
 						y: 0
 					},
-					type = 'touch',
 					delta = 0,
 					winScroll = false,
 					timeout = {};
@@ -468,6 +468,7 @@
 				};
 
 				var touchstart_hit = function(e) {
+					_this.$pic_container.stop();
 					clearTimeout(timeout);
 					disable_scroll();
 					_this.play = false;
@@ -490,7 +491,7 @@
 					}
 					delta = x >= touch.x ? 1 : -1;
 					_this.$pic_container.css({left:x - touch.x});
-					if (Math.abs(x - touch.x) < Math.floor(_this.pic_container_w * .4)) {
+					if (Math.abs(x - touch.x) < Math.floor(_this.pic_container_w * .5)) {
 						delta = 0;
 						return;
 					}
@@ -498,15 +499,13 @@
 
 				var touchend_hit = function(e) {
 					_this.play = false;
-					type = (touch.x == touch_now.x) ? 'click' : 'touch';
-					_this.$pic_container.stop();
-					_this.$pic_container.animate({left: 0}, 500, 'easeOutCirc');
+					_this.$pic_container.animate({left: 0}, (delta == 0) ? 800 : 1000, _this.easing);
 					timeout = setTimeout(enableScroll, _this.speed / 2);
 					if (delta == 0) return;
 					if (delta > 0) {
-						_this.do_slide_prev(type);
+						_this.do_slide_prev();
 					} else {
-						_this.do_slide_next(type);
+						_this.do_slide_next();
 					}
 				};
 				
@@ -554,25 +553,27 @@
 			},
 			
 			do_slide_prev: function(type) {
+				type = type || 'animate';
 				_this.playing = true;
 				_this.prev_num = _this.now_num;
 				if (_this.now_num <= 0) {
-					if (_this.loop && (_this.touch_loop || type != 'touch')) _this.now_num = _this.pic_len - _this.visible;
+					if (_this.loop) _this.now_num = _this.pic_len - _this.visible;
 				} else {
 					_this.now_num--;
 				}
-				_this.item_pos(_this.now_num, type == 'touch' ? 'css' : 'animate');
+				_this.item_pos(_this.now_num, type);
 			},
 			
 			do_slide_next: function(type) {
+				type = type || 'animate';
 				_this.playing = true;
 				_this.prev_num = _this.now_num;
 				if (_this.now_num >= _this.pic_len - _this.visible) {
-					if (_this.loop && (_this.touch_loop || type != 'touch')) _this.now_num = 0;
+					if (_this.loop) _this.now_num = 0;
 				} else {
 					_this.now_num++;
 				}
-				_this.item_pos(_this.now_num, type == 'touch' ? 'css' : 'animate');
+				_this.item_pos(_this.now_num, type);
 			},
 			
 			do_slide_move: function(num) {
@@ -582,7 +583,13 @@
 			},
 			
 			check_animate_rule: function(x, i) {
-				return ((x <= -_this.pic_container_w || x >= _this.pic_container_w) && Math.abs(_this.now_num - i) >= _this.push_len);
+				return (
+					(x <= -_this.pic_container_w || x >= _this.pic_container_w) &&
+					(
+						Math.abs(_this.now_num - i) >= _this.push_len && 
+						Math.abs(_this.now_num - i) <= (_this.pic_len - _this.push_len)
+					)
+				);
 			},
 			
 			visible_switch: function(i, x, y) {
@@ -612,7 +619,7 @@
 					y = Math.ceil(y);
 				_this.visible_switch(i, x, y);
 				if (_this.check_animate_rule(x, i)) type = 'css';
-				$pic.clearQueue();
+				$pic.stop();
 				switch (type) {
 					case 'animate':
 						$pic
@@ -644,15 +651,16 @@
 				_this.$pic.siblings().removeClass(_this.step_css);
 				_this.$pic.addClass(_this.step_css);
 
+				_this.pic_w = _this.$pic.outerWidth();
+				_this.pic_x = _this.align == 'center' ? _this.pic_container_w / 2 - _this.pic_w / 2 : 0;
+
 				if (_this.pagination) {
 					_this.$page = _this.$pages.eq(step_num);
 					_this.$page.siblings().removeClass(_this.step_css);
 					_this.$page.addClass(_this.step_css);
 				}
 				
-				var step_w = _this.$pic.outerWidth(),
-					step_x = _this.align == 'center' ? _this.pic_container_w / 2 - step_w / 2 : 0,
-					y = 0,
+				var y = 0,
 					len = _this.pic_len - 1;
 					
 				for (var i = 0; i <= len; i++) {
@@ -664,7 +672,7 @@
 							for (var k = i; k < step_num; k++) {
 								tmp_w += _this.$pics.eq(k).outerWidth();
 							}
-							return step_x - tmp_w;
+							return _this.pic_x - tmp_w;
 						})();
 					} else {
 						x = (function() {
@@ -672,7 +680,7 @@
 							for (var k = step_num; k < i; k++) {
 								tmp_w += _this.$pics.eq(k).outerWidth();
 							}
-							return step_x + _this.$pics.eq(step_num).outerWidth() + tmp_w - step_w;
+							return _this.pic_x + _this.$pics.eq(step_num).outerWidth() + tmp_w - _this.pic_w;
 						})();
 					}
 					_this.$pics.eq(i).data('x', x);
