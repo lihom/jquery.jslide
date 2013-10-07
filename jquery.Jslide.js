@@ -481,17 +481,15 @@
 
 				var touchmove_hit = function(e) {
 					_this.play = false;
-					var x = get_event_pos_x(e),
-						y = get_event_pos_y(e);
-					touch_now.x = x;
-					touch_now.y = y;
-					if (Math.abs(y - touch.y) > Math.abs(x - touch.x)) {
+					touch_now.x = get_event_pos_x(e);
+					touch_now.y = get_event_pos_y(e);
+					if (Math.abs(touch_now.y - touch.y) > Math.abs(touch_now.x - touch.x)) {
 						delta = 0;
 						return;
 					}
-					delta = x >= touch.x ? 1 : -1;
-					_this.$pic_container.css({left:x - touch.x});
-					if (Math.abs(x - touch.x) < Math.floor(_this.pic_container_w * .5)) {
+					delta = touch_now.x >= touch.x ? 1 : -1;
+					_this.$pic_container.css({left:touch_now.x - touch.x});
+					if (Math.abs(touch_now.x - touch.x) < Math.floor(_this.pic_container_w * .5)) {
 						delta = 0;
 						return;
 					}
@@ -501,6 +499,9 @@
 					_this.play = false;
 					_this.$pic_container.animate({left: 0}, (delta == 0) ? 800 : 1000, _this.easing);
 					timeout = setTimeout(enableScroll, _this.speed / 2);
+					if (touch_now.x == touch.x) {
+						delta = touch.x <= $hit.width() / 2 ? 1 : -1;
+					}
 					if (delta == 0) return;
 					if (delta > 0) {
 						_this.do_slide_prev();
