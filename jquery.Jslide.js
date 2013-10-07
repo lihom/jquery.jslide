@@ -54,7 +54,10 @@
 			hook_item_pos: false,
 			hook_slidemove_before_click: false,
 			hook_init_stage_before: false,
-			hook_item_tween_after: false
+			hook_item_tween_after: false,
+			hook_install_after: false,
+			hook_close_after: false,
+			hook_reset_pagination: false
 		};
 		
 		_privaty = {
@@ -295,6 +298,8 @@
 					});
 					_this.timeout();
 				}
+
+				if (_this.hook_install_after) _this.hook_install_after();
 			},
 
 			init_loading: function() {
@@ -337,6 +342,7 @@
 				_this.$wrap.fadeOut(500, function() {
 					_this.$wrap.remove();
 					_this.$win.unbind('resize', _this.delay_init_stage);
+					if (_this.hook_close_after) _this.hook_close_after();
 				});
 			},
 
@@ -355,7 +361,7 @@
 			},
 			
 			init_pagination: function() {
-				_this.$page_conParent = _this.$page_con.parent();
+				_this.$page_con_parent = _this.$page_con.parent();
 				_this.$pages = $(_this.pages, _this.$self);
 
 				_this.reset_pagination();
@@ -375,8 +381,8 @@
 			},
 
 			reset_pagination: function() {
-				_this.$page_conParent.css('height', _this.$page_con.height());
-				_this.$pages.width(Math.floor(_this.$page_conParent.width() / _this.pic_len));
+				_this.$page_con_parent.css('height', _this.$page_con.height());
+				_this.$pages.width(Math.floor(_this.$page_con_parent.width() / _this.pic_len));
 
 				var w = 0;
 				_this.$pages.each(function() {
@@ -390,6 +396,8 @@
 					'overflow': 'visible',
 					'width': w
 				});
+
+				if (_this.hook_reset_pagination) _this.hook_reset_pagination();
 			},
 
 			delay_init_stage: function() {
