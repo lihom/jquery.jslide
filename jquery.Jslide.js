@@ -1,7 +1,8 @@
 /*
- * jQuery.Jslide
+ * Jslide - jQuery Plugin
  * 
  * @author		hom
+ * @license		http://lab.a2.kiiick.com/MIT-LICENSE.txt
  * @copyright	Copyright (C) KICKcreative Co., All Rights Reserved.
  * 
  */
