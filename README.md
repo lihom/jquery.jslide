@@ -40,7 +40,7 @@ $('#slide_list > li > div').JslideAnchor({
 
 ###Demo
 
-http://lab.a2.kiiick.com/JS/jquery.jslide/demo-list.html
+http://lab.a2.kiiiick.com/JS/jquery.jslide/demo-list.html
 
 
 Jslide for Gallery
@@ -183,4 +183,4 @@ $('#slide').Jslide({
 
 ###Demo
 
-http://lab.a2.kiiick.com/JS/jquery.jslide/demo-gallery.html
+http://lab.a2.kiiiick.com/JS/jquery.jslide/demo-gallery.html
