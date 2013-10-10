@@ -3,7 +3,9 @@
 // get file name
 function get_file_name($dir, $format) {
 	$filenames = array();
-	$result = glob($dir.'/*.'.$format) == TRUE ? glob($dir.'/*.'.$format) : glob($dir.'/*.'.strtoupper($format));
+	$lower = glob($dir.'/*.'.$format);
+	$upper = glob($dir.'/*.'.strtoupper($format));
+	$result = array_merge($lower, $upper);
 	if ($result != FALSE) {
 		foreach ($result as $k=>$v) {
 			$filenames[] = (string)basename($v);
