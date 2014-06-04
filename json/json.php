@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: application/json; charset=utf-8');
+
 // get file name
 function get_file_name($dir, $format) {
 	$filenames = array();
@@ -29,7 +31,5 @@ foreach ($files as $k=>$v) {
 }
 
 echo json_encode($datas);
-
-header('Content-Type: application/json; charset=utf-8');
 
 ?>
